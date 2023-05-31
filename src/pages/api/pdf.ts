@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer from "puppeteer";
 import { RequestData } from "@/types/globals";
 import { generateFilename } from "@/helpers";
-import { redis } from "@/lib";
+// import { redis } from "@/lib";
 
 export interface PostApiReuqest extends NextApiRequest {
   body: RequestData;
@@ -15,7 +15,7 @@ const saveAsPdf = async (data: RequestData) => {
   });
   const page = await browser.newPage();
   const id = crypto.randomBytes(8).toString("hex");
-  await redis.set(id, JSON.stringify(data));
+  // await redis.set(id, JSON.stringify(data));
 
   await page.goto(`http://localhost:3000?id=${id}`, {
     waitUntil: "networkidle0",
@@ -30,7 +30,7 @@ const saveAsPdf = async (data: RequestData) => {
 
   await browser.close();
 
-  await redis.del(id); // delete all user data by id
+  // await redis.del(id); // delete all user data by id
 
   return result;
 };
